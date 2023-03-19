@@ -1,0 +1,2 @@
+# EPICsoildata
+GetImportantSoilDataforEPICsimulation
