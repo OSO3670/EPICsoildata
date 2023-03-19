@@ -1,0 +1,26 @@
+library(soilDB)
+library(apsimx)
+library(sf)
+library(sp)
+
+get_epic_soil_data <- function(lat, lon) {
+  # import SSURGO soil profile data using apsimx
+  soil_profile <- get_ssurgo_soil_profile(lonlat, nlayers = 10)
+  soil_profile
+  
+  soil_df <- data.frame(matrix(unlist(soil_profile), nrow=10))
+  # rename columns
+  colnames(soil_df) <- c("Depth", "Thickness", "Bulk Density", "AirDry", "Wilting Point", 
+                         "Field Capacity", "Saturation", "NA", "Carbon", "SoilCNRatio",
+                         "NA", "NA", "NA", "NA", "NA", "NA", "pH", "Clay", "Silt", "Sand")
+  
+  # remove unwanted columns
+  soil_df <- soil_df[, c("Depth", "Thickness", "Bulk Density", "AirDry", "Wilting Point", 
+                         "Field Capacity", "Saturation", "Carbon", "SoilCNRatio",
+                         "pH", "Clay", "Silt", "Sand")]
+  
+  return(soil_df)
+}
+
+soil_data <- get_epic_soil_data(lat = 43, lon = -93)
+View(soil_data)
